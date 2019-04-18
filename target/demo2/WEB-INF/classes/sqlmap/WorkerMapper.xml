@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cby.dao.WorkerMapper" >
+  <resultMap id="BaseResultMap" type="com.cby.entity.Worker" >
+    <id column="worker_id" property="workerId" jdbcType="VARCHAR" />
+    <result column="worker_name" property="workerName" jdbcType="VARCHAR" />
+    <result column="job" property="job" jdbcType="VARCHAR" />
+    <result column="numbers" property="numbers" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    worker_id, worker_name, job, numbers, password
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from worker
+    where worker_id = #{workerId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from worker
+    where worker_id = #{workerId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cby.entity.Worker" >
+    insert into worker (worker_id, worker_name, job, 
+      numbers, password)
+    values (#{workerId,jdbcType=VARCHAR}, #{workerName,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, 
+      #{numbers,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cby.entity.Worker" >
+    insert into worker
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="workerId != null" >
+        worker_id,
+      </if>
+      <if test="workerName != null" >
+        worker_name,
+      </if>
+      <if test="job != null" >
+        job,
+      </if>
+      <if test="numbers != null" >
+        numbers,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="workerId != null" >
+        #{workerId,jdbcType=VARCHAR},
+      </if>
+      <if test="workerName != null" >
+        #{workerName,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="numbers != null" >
+        #{numbers,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cby.entity.Worker" >
+    update worker
+    <set >
+      <if test="workerName != null" >
+        worker_name = #{workerName,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="numbers != null" >
+        numbers = #{numbers,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where worker_id = #{workerId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cby.entity.Worker" >
+    update worker
+    set worker_name = #{workerName,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      numbers = #{numbers,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR}
+    where worker_id = #{workerId,jdbcType=VARCHAR}
+  </update>
+</mapper>

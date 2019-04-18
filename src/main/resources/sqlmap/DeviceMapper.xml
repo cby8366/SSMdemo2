@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cby.dao.DeviceMapper" >
+  <resultMap id="BaseResultMap" type="com.cby.entity.Device" >
+    <id column="devide_id" property="devideId" jdbcType="VARCHAR" />
+    <result column="worker_id" property="workerId" jdbcType="VARCHAR" />
+    <result column="devide_name" property="devideName" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="DATE" />
+    <result column="last_date" property="lastDate" jdbcType="DATE" />
+    <result column="next_date" property="nextDate" jdbcType="DATE" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.cby.entity.Device" extends="BaseResultMap" >
+    <result column="ps" property="ps" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    devide_id, worker_id, devide_name, start_time, last_date, next_date
+  </sql>
+  <sql id="Blob_Column_List" >
+    ps
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from device
+    where devide_id = #{devideId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from device
+    where devide_id = #{devideId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cby.entity.Device" >
+    insert into device (devide_id, worker_id, devide_name, 
+      start_time, last_date, next_date, 
+      ps)
+    values (#{devideId,jdbcType=VARCHAR}, #{workerId,jdbcType=VARCHAR}, #{devideName,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=DATE}, #{lastDate,jdbcType=DATE}, #{nextDate,jdbcType=DATE}, 
+      #{ps,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cby.entity.Device" >
+    insert into device
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="devideId != null" >
+        devide_id,
+      </if>
+      <if test="workerId != null" >
+        worker_id,
+      </if>
+      <if test="devideName != null" >
+        devide_name,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="lastDate != null" >
+        last_date,
+      </if>
+      <if test="nextDate != null" >
+        next_date,
+      </if>
+      <if test="ps != null" >
+        ps,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="devideId != null" >
+        #{devideId,jdbcType=VARCHAR},
+      </if>
+      <if test="workerId != null" >
+        #{workerId,jdbcType=VARCHAR},
+      </if>
+      <if test="devideName != null" >
+        #{devideName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=DATE},
+      </if>
+      <if test="lastDate != null" >
+        #{lastDate,jdbcType=DATE},
+      </if>
+      <if test="nextDate != null" >
+        #{nextDate,jdbcType=DATE},
+      </if>
+      <if test="ps != null" >
+        #{ps,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cby.entity.Device" >
+    update device
+    <set >
+      <if test="workerId != null" >
+        worker_id = #{workerId,jdbcType=VARCHAR},
+      </if>
+      <if test="devideName != null" >
+        devide_name = #{devideName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=DATE},
+      </if>
+      <if test="lastDate != null" >
+        last_date = #{lastDate,jdbcType=DATE},
+      </if>
+      <if test="nextDate != null" >
+        next_date = #{nextDate,jdbcType=DATE},
+      </if>
+      <if test="ps != null" >
+        ps = #{ps,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where devide_id = #{devideId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cby.entity.Device" >
+    update device
+    set worker_id = #{workerId,jdbcType=VARCHAR},
+      devide_name = #{devideName,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=DATE},
+      last_date = #{lastDate,jdbcType=DATE},
+      next_date = #{nextDate,jdbcType=DATE},
+      ps = #{ps,jdbcType=LONGVARCHAR}
+    where devide_id = #{devideId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cby.entity.Device" >
+    update device
+    set worker_id = #{workerId,jdbcType=VARCHAR},
+      devide_name = #{devideName,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=DATE},
+      last_date = #{lastDate,jdbcType=DATE},
+      next_date = #{nextDate,jdbcType=DATE}
+    where devide_id = #{devideId,jdbcType=VARCHAR}
+  </update>
+</mapper>

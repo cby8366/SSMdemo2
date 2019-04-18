@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cby.dao.ComplaintMapper" >
+  <resultMap id="BaseResultMap" type="com.cby.entity.Complaint" >
+    <id column="complaint_id" property="complaintId" jdbcType="CHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="worker_id" property="workerId" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="reply" property="reply" jdbcType="VARCHAR" />
+    <result column="complaint_time" property="complaintTime" jdbcType="TIMESTAMP" />
+    <result column="reply_time" property="replyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    complaint_id, user_id, worker_id, content, reply, complaint_time, reply_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from complaint
+    where complaint_id = #{complaintId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from complaint
+    where complaint_id = #{complaintId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cby.entity.Complaint" >
+    insert into complaint (complaint_id, user_id, worker_id, 
+      content, reply, complaint_time, 
+      reply_time)
+    values (#{complaintId,jdbcType=CHAR}, #{userId,jdbcType=VARCHAR}, #{workerId,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{reply,jdbcType=VARCHAR}, #{complaintTime,jdbcType=TIMESTAMP}, 
+      #{replyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cby.entity.Complaint" >
+    insert into complaint
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="complaintId != null" >
+        complaint_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="workerId != null" >
+        worker_id,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="reply != null" >
+        reply,
+      </if>
+      <if test="complaintTime != null" >
+        complaint_time,
+      </if>
+      <if test="replyTime != null" >
+        reply_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="complaintId != null" >
+        #{complaintId,jdbcType=CHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="workerId != null" >
+        #{workerId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="reply != null" >
+        #{reply,jdbcType=VARCHAR},
+      </if>
+      <if test="complaintTime != null" >
+        #{complaintTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyTime != null" >
+        #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cby.entity.Complaint" >
+    update complaint
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="workerId != null" >
+        worker_id = #{workerId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="reply != null" >
+        reply = #{reply,jdbcType=VARCHAR},
+      </if>
+      <if test="complaintTime != null" >
+        complaint_time = #{complaintTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyTime != null" >
+        reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where complaint_id = #{complaintId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cby.entity.Complaint" >
+    update complaint
+    set user_id = #{userId,jdbcType=VARCHAR},
+      worker_id = #{workerId,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      reply = #{reply,jdbcType=VARCHAR},
+      complaint_time = #{complaintTime,jdbcType=TIMESTAMP},
+      reply_time = #{replyTime,jdbcType=TIMESTAMP}
+    where complaint_id = #{complaintId,jdbcType=CHAR}
+  </update>
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cby.dao.ParkMapper" >
+  <resultMap id="BaseResultMap" type="com.cby.entity.Park" >
+    <id column="park_id" property="parkId" jdbcType="VARCHAR" />
+    <result column="carport_id" property="carportId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="stsrt_time" property="stsrtTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="car_id" property="carId" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    park_id, carport_id, user_id, stsrt_time, end_time, car_id, price, money
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from park
+    where park_id = #{parkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from park
+    where park_id = #{parkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cby.entity.Park" >
+    insert into park (park_id, carport_id, user_id, 
+      stsrt_time, end_time, car_id, 
+      price, money)
+    values (#{parkId,jdbcType=VARCHAR}, #{carportId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{stsrtTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{carId,jdbcType=VARCHAR}, 
+      #{price,jdbcType=INTEGER}, #{money,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cby.entity.Park" >
+    insert into park
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="parkId != null" >
+        park_id,
+      </if>
+      <if test="carportId != null" >
+        carport_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="stsrtTime != null" >
+        stsrt_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="carId != null" >
+        car_id,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="parkId != null" >
+        #{parkId,jdbcType=VARCHAR},
+      </if>
+      <if test="carportId != null" >
+        #{carportId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="stsrtTime != null" >
+        #{stsrtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carId != null" >
+        #{carId,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cby.entity.Park" >
+    update park
+    <set >
+      <if test="carportId != null" >
+        carport_id = #{carportId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="stsrtTime != null" >
+        stsrt_time = #{stsrtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carId != null" >
+        car_id = #{carId,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=INTEGER},
+      </if>
+    </set>
+    where park_id = #{parkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cby.entity.Park" >
+    update park
+    set carport_id = #{carportId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      stsrt_time = #{stsrtTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      car_id = #{carId,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      money = #{money,jdbcType=INTEGER}
+    where park_id = #{parkId,jdbcType=VARCHAR}
+  </update>
+</mapper>
