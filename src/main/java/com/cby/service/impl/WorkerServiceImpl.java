@@ -4,7 +4,9 @@ import com.cby.dao.WorkerMapper;
 import com.cby.entity.Worker;
 import com.cby.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class WorkerServiceImpl implements WorkerService {
 
     @Autowired

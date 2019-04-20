@@ -3,7 +3,9 @@ package com.cby.service.impl;
 import com.cby.dao.CarportMapper;
 import com.cby.entity.Carport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CarportServiceImpl {
 
     @Autowired

@@ -29,6 +29,7 @@
         });
     }
 </script>--%>
+<%--
 <body>
 <form action="/checkLogin" method="post">
 用户名：<input type="text" name="userId" id="userId"/><br/>
@@ -37,6 +38,52 @@
     <label><input type="radio" name="type" value="2"/>管理员</label><br/>
 <input type="submit" name="login" value="登录"/><br/>
 </form>
+--%>
+<script type="text/javascript" language="JavaScript">
+    $(document).ready(function () {
+        $('#login').click(function () {
+            $.ajax({
+                type: "post",
+                url: "checkLogin",
+                data: {
+                    "userId": $("#userId").val(),
+                    "password": $("#pwd").val(),
+                },
+                dataType: "JSON",
+                async: false,
+                beforeSend: function () {
+                    alert("正在提交");
+                },
+                success: function (data) {
+                    if (data == 1) {
+                        alert("登录成功")
+                        window.location.href = "userList";
+
+                    } else {
+                        alert("用户名或者密码错误!");
+                    }
+                },
+                error: function () {
+                    alert("提交失败");
+                }
+            });
+        })
+    })
+</script>
+
+<h1>登录页面</h1>
+<form class="bs-example bs-example-form" role="form1" method="post">
+    <div class="input-group">
+        <span class="input-group-addon">userId</span>
+        <input type="text" id="userId" class="form-control" >
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon">password</span>
+        <input type="text" id="pwd" class="form-control" >
+    </div>
+</form>
+<button  class="btn btn-info" style="align-content: center" id="login">登录</button>
+</div>
 
 </body>
 </html>

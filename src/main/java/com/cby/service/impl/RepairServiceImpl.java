@@ -4,7 +4,9 @@ import com.cby.dao.RepairMapper;
 import com.cby.entity.Repair;
 import com.cby.service.RepairService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RepairServiceImpl implements RepairService {
 
     @Autowired

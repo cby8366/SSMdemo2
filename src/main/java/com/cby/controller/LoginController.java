@@ -5,73 +5,74 @@ import com.cby.entity.Worker;
 import com.cby.service.UserService;
 import com.cby.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
-@Controller
+
+@CrossOrigin
+@RestController
 public class LoginController {
-
+    static Worker worker = new Worker();
+    static User user = new User();
     @Autowired
-    private UserService userService;
     private WorkerService workerService;
+     @Autowired
+     private UserService userService;
+
 
     @RequestMapping(value = "/checkLogin", method = RequestMethod.POST)
     @ResponseBody
-    public String login(HttpServletRequest request) {
-        System.out.println("进入该方法");
-        String userId = request.getParameter("userId");
-        String password = request.getParameter("password");
-        String type = request.getParameter("type");
-        System.out.println("request.getParameter   " + userId);
-        System.out.println("request.getParameter   " + password);
-        System.out.println("request.getParameter   " + type);
-        Boolean result = checkLogin(userId, password, type);
-        if (result) {
-            System.out.println("1");
-            return "success";
-        } else {
-            System.out.println("0");
-            return "false";
+    public Map<String,Object> login(@RequestBody Map<String,Object> param) {
+        /*MD5Utils md5 = new MD5Utils();*/
+        String userId =param.get("username").toString();
+        String password =MD5Utils.MD5(param.get("password").toString());
+        String type =param.get("type").toString();
+        System.out.println(userId+" "+password+" "+type);
+        Boolean result = checkLogin(userId,password,type);
+//        System.out.println(result);
+        if (result&&type.equals("1")) {
+            System.out.println("success");
+            Map<String,Object> response = new HashMap<>();
+            response.put("code",20000);
+            response.put("message","登录成功");
+            response.put("data",user);
+            return response;
+        }else if (result&&type.equals("2")) {
+            System.out.println("success");
+            Map<String,Object> response = new HashMap<>();
+            response.put("code",20000);
+            response.put("message","登录成功");
+            response.put("data",worker);
+            return response;
+        }else {
+//            System.out.println("error");
+            Map<String,Object> response = new HashMap<>();
+            response.put("code",20001);
+            response.put("message","用户名或密码错误");
+            return response;
         }
+
+
     }
-/*
-        Boolean result = checkLogin(userId,password);
-        Map<String, Object> map = new HashMap<>();
-
-        if (result) {
-            map.put("code", 0);
-            map.put("tureInfo","登录成功");
-        }
-        else{
-            map.put("code", 1);
-            map.put("errorInfo","登录失败，请重新登录");
-        }
-        return map;*/
-
-
     public boolean checkLogin(String userId, String password, String type) {
         if (type.equals("1")) {
-            User user = userService.selectByPrimaryKey(userId);
-            if (user == null || "".equals(user)) {
+            user = userService.selectByPrimaryKey(userId);
+            if (user == null || "".equals(user.getUserId())) {
                 return false;
             }
-            if (user.getPassword().equals(password)) {
-                System.out.println(user.getUserId() + " " + user.getPassword());
+            if (user.getPassword().trim().equals(password)) {
                 return true;
             } else {
                 return false;
             }
         } else if (type.equals("2")){
-            Worker worker = workerService.selectByPrimaryKey(userId);
-            if (worker == null || "".equals(worker)) {
+            worker = workerService.selectByPrimaryKey(userId);
+            if (worker == null || "".equals(worker.getWorkerId())) {
                 return false;
             }
-            if (worker.getPassword().equals(password)) {
-                System.out.println(worker.getWorkerId() + " " + worker.getPassword());
+            if (worker.getPassword().trim() .equals(password)) {
                 return true;
             } else {
                 return false;
@@ -81,6 +82,16 @@ public class LoginController {
             System.out.println("类型错误");
             return false;
         }
-
     }
+
+    @RequestMapping(value = "/checkLogout",method = RequestMethod.POST )
+    @ResponseBody
+    public Map<String,Object> logout(){
+        Map<String,Object> response = new HashMap<>();
+        response.put("code",20000);
+        response.put("message","注销成功");
+        return response;
+    }
+
+
 }

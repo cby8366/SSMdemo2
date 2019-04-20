@@ -4,7 +4,9 @@ import com.cby.dao.ComplaintMapper;
 import com.cby.entity.Complaint;
 import com.cby.service.ComplaintService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ComplaintServiceImpl implements ComplaintService {
 
     @Autowired

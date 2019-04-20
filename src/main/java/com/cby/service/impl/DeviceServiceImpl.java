@@ -4,7 +4,9 @@ import com.cby.dao.DeviceMapper;
 import com.cby.entity.Device;
 import com.cby.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DeviceServiceImpl implements DeviceService {
 
     @Autowired

@@ -3,6 +3,7 @@ package com.cby.service;
 import com.cby.entity.Worker;
 
 public interface WorkerService {
+
     int deleteByPrimaryKey(String workerId);
 
     int insert(Worker record);

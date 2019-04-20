@@ -4,7 +4,9 @@ import com.cby.dao.PaymentMapper;
 import com.cby.entity.Payment;
 import com.cby.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PaymentServiceImpl implements PaymentService {
 
     @Autowired

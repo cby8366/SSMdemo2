@@ -4,7 +4,9 @@ import com.cby.dao.ParkMapper;
 import com.cby.entity.Park;
 import com.cby.service.ParkService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ParkServiceImpl implements ParkService {
 
     @Autowired
