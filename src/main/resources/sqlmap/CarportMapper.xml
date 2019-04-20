@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cby.dao.CarportMapper" >
+  <resultMap id="BaseResultMap" type="com.cby.entity.Carport" >
+    <id column="carport_id" property="carportId" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from carport
+    where carport_id = #{carportId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cby.entity.Carport" >
+    insert into carport (carport_id)
+    values (#{carportId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cby.entity.Carport" >
+    insert into carport
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="carportId != null" >
+        carport_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="carportId != null" >
+        #{carportId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
