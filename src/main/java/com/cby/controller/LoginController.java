@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @CrossOrigin
 @RestController
 public class LoginController {
@@ -18,12 +17,11 @@ public class LoginController {
     static User user = new User();
     @Autowired
     private WorkerService workerService;
-     @Autowired
-     private UserService userService;
+    @Autowired
+    private UserService userService;
 
 
     @RequestMapping(value = "/checkLogin", method = RequestMethod.POST)
-    @ResponseBody
     public Map<String,Object> login(@RequestBody Map<String,Object> param) {
         /*MD5Utils md5 = new MD5Utils();*/
         String userId =param.get("username").toString();

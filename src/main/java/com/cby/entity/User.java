@@ -90,4 +90,19 @@ public class User {
     public void setRoom(String room) {
         this.room = room;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userSex='" + userSex + '\'' +
+                ", numbers='" + numbers + '\'' +
+                ", area='" + area + '\'' +
+                ", state='" + state + '\'' +
+                ", password='" + password + '\'' +
+                ", building='" + building + '\'' +
+                ", room='" + room + '\'' +
+                '}';
+    }
 }

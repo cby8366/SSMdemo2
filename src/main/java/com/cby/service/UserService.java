@@ -1,6 +1,9 @@
 package com.cby.service;
 
 import com.cby.entity.User;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -16,6 +19,13 @@ public interface UserService {
 
     int updateByPrimaryKey(User record);
 
+    List<User> quickSelect(@Param("userId") String userId, @Param("userName") String userName, @Param("numbers") String numbers);
+
+    List<String> selectBuilding();
+
+    List<User> selectByBuilding(String building);
+
+    List<User> selectAllUser();
 
 //    ArrayList<User> selectSelective(User record);
 

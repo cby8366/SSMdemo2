@@ -1,6 +1,9 @@
 package com.cby.dao;
 
 import com.cby.entity.Worker;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface WorkerMapper {
     int deleteByPrimaryKey(String workerId);
@@ -14,4 +17,6 @@ public interface WorkerMapper {
     int updateByPrimaryKeySelective(Worker record);
 
     int updateByPrimaryKey(Worker record);
+
+    List<Worker> quickSelect(@Param("workerId") String workerId, @Param("workerName") String workerName, @Param("numbers") String numbers);
 }

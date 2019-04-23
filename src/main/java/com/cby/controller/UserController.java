@@ -7,9 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-@Controller("/user")
-@RequestMapping
+@CrossOrigin
+@RestController
+@RequestMapping(value = "/user")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -19,74 +24,62 @@ public class UserController {
         return "login";
     }*/
 
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
-    @ResponseBody
-    public String login(HttpServletRequest request){
-        /*Map<String,String> map=new HashMap<String,String>();
-        map.put("user_id", request.getParameter("user_id"));
-        map.put("password", request.getParameter("password"));
-        User user = userService.login(map);*/
-       String str1 = request.getParameter("user_id");
-       String str2 = request.getParameter("password");
-       User user = userService.selectByPrimaryKey(str1);
+    @RequestMapping(value = "/quickSelect",method = RequestMethod.POST)
+    public Map<String, Object> QuickSelect(@RequestBody Map<String,Object> param){
+        String userId = param.get("userId").toString();
+        String userName = param.get("userName").toString();
+        String numbers = param.get("numbers").toString();
+        System.out.println("userId  "+userId);
+        System.out.println("userName  "+userName);
+        System.out.println("numbers  "+numbers);
+        if(userId.equals("")) userId = null;
+        if(userName.equals("")) userName = null;
+        if(numbers.equals("")) numbers = null;
+        List<User> user = userService.quickSelect(userId,userName,numbers);
+        Map<String,Object> response = new HashMap<>();
         if(user != null){
-            if (user.getPassword() == str2){
-            System.out.println("1111");
-            return "success";}
-            else
-            {return "flase";}
+            response.put("code",20000);
+            response.put("data",user);
+            return response;
         }
-
         else {
-            System.out.println("2222");
-            return "flase";
+            response.put("code",20001);
+            response.put("message","无此业主");
+            return response;
         }
-
-        /*User user1 = new User();
-        user1 = userService.selectByPrimaryKey(request.getParameter("user_id"));
-        if(user1!=null){
-            if(user1.getPassword() == request.getParameter("password")){
-                return "success";
-            }
-            else return "flase";
-        }
-        else return "flase";*/
-        /*Map<String,String> map=new HashMap<String,String>();
-        map.put("userId", user.getUserId());
-        map.put("password", user.getPassword());
-        if(userService.login(map)!=null){
-            request.getSession().setAttribute("user",user);
-            return "success";
-        }
-        else return "flase";*/
-
     }
-
-
-    /*@RequestMapping(value="/user/login", method = RequestMethod.GET)
-    public String login() {
-        return "login";
-    }
-
-    @RequestMapping(value = "/user/login", method = RequestMethod.POST)
-    public String loginValidate(HttpSession session, Model model, @ModelAttribute User user) {
-        List<User> list = new ArrayList<User>();
-        User record  = new User();
-        record.setUserId(user.getUserId());
-        list = userService.selectSelective(record);
-        if (list.size() == 0) {
-            model.addAttribute("status", 1);
-        } else {
-            record.setPassword(Encryption.MD5(user.getPassword()));
-            list = userService.selectSelective(record);
-            if (list.size() == 0) {
-                model.addAttribute("status", 2);
-            }
-            record = list.get(0);
-            session.setAttribute("user", record);
-            model.addAttribute("status", 0);
+    /*@RequestMapping(value = "/getBuilding",method = RequestMethod.GET)
+    public Map<String,Object> Building(){
+        Map<String,Object> response = new HashMap<>();
+        if (userService.selectBuilding()!=null){
+            response.put("code",20000);
+            response.put("data",userService.selectBuilding());
+            return response;
         }
-
-        return "login";
+        else{
+            response.put("code",20001);
+            response.put("message","无数据");
+            return response;
+        }
+    }*/
+    /*@RequestMapping(value = "/userInBuilding",method = RequestMethod.POST)
+    public List<User> UserInBuilding(@RequestBody Map<String,Object> param){
+        String building = param.get("building").toString();
+        return userService.selectByBuilding(building);
+    }*/
+    /*@RequestMapping(value = "/allUser",method = RequestMethod.GET)
+    public Map<String, Object> AllUser(){
+        List<User> list = userService.selectAllUser();
+        Map<String,Object> response = new HashMap<>();
+        if (list != null){
+            response.put("code",20000);
+            response.put("data",list);
+            return response;
+        }
+        else {
+            response.put("code",20001);
+            response.put("message","无数据");
+            return response;
+        }
     }*/
 }
