@@ -20,10 +20,4 @@ public interface UserMapper {
 
     List<User> quickSelect(@Param("userId") String userId,@Param("userName") String userName,@Param("numbers") String numbers);
 
-    List<String> selectBuilding();
-
-    List<User> selectByBuilding(String building);
-
-    List<User> selectAllUser();
-
 }

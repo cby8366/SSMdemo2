@@ -19,4 +19,5 @@ public interface WorkerMapper {
     int updateByPrimaryKey(Worker record);
 
     List<Worker> quickSelect(@Param("workerId") String workerId, @Param("workerName") String workerName, @Param("numbers") String numbers);
+
 }

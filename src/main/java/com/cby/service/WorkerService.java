@@ -19,6 +19,6 @@ public interface WorkerService {
 
     int updateByPrimaryKey(Worker record);
 
-    List<Worker> quickSelect(@Param("workerId") String workerId, @Param("workerName") String workerName, @Param("numbers") String numbers);
+    List<Worker> quickSelect(@Param("workerId") String workerId, @Param("workerName") String workerName, @Param("numbers") String numbers, @Param("page") String page, @Param("pageSize") String pageSize);
 
 }

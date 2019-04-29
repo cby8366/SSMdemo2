@@ -15,7 +15,7 @@
     worker_id, worker_name, job, numbers
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from worker
     where worker_id = #{workerId,jdbcType=VARCHAR}
@@ -25,9 +25,9 @@
     where worker_id = #{workerId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.cby.entity.Worker" >
-    insert into worker (worker_id, worker_name, job, 
+    insert into worker (worker_id, worker_name, job,
       numbers, password)
-    values (#{workerId,jdbcType=VARCHAR}, #{workerName,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, 
+    values (#{workerId,jdbcType=VARCHAR}, #{workerName,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR},
       #{numbers,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.cby.entity.Worker" >
@@ -108,5 +108,11 @@
         and numbers = #{numbers,jdbcType=VARCHAR}
       </if>
     </where>
+    order by worker_id
+  </select>
+  <select id="selectAllWorker" resultMap="BaseResultMap">
+    select
+    <include refid="Worker_Info"/>
+    from worker
   </select>
 </mapper>

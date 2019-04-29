@@ -40,12 +40,9 @@
       #{repairInformation,jdbcType=VARCHAR}, #{repairTime,jdbcType=TIMESTAMP}, #{repairCondition,jdbcType=VARCHAR}, 
       #{evaluationTime,jdbcType=TIMESTAMP}, #{evaluation,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.cby.entity.Repair" >
+  <insert id="insertSelective" parameterType="com.cby.entity.Repair" useGeneratedKeys="true" keyProperty="repairId" >
     insert into repair
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="repairId != null" >
-        repair_id,
-      </if>
       <if test="userId != null" >
         user_id,
       </if>
@@ -69,9 +66,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="repairId != null" >
-        #{repairId,jdbcType=VARCHAR},
-      </if>
       <if test="userId != null" >
         #{userId,jdbcType=VARCHAR},
       </if>
@@ -143,4 +137,24 @@
       evaluation_time = #{evaluationTime,jdbcType=TIMESTAMP}
     where repair_id = #{repairId,jdbcType=VARCHAR}
   </update>
+  <select id="quickSelect" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from repair
+    <where>
+      <if test="repairId != null">
+        repair_id = #{repairId,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null">
+        and user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="workerId != null">
+        and worker_id = #{workerId,jdbcType=VARCHAR}
+      </if>
+      <if test="repairTime != null">
+        and repair_time = #{repairTime,jdbcType=VARCHAR}
+      </if>
+    </where>
+    ORDER BY repair_time
+  </select>
 </mapper>

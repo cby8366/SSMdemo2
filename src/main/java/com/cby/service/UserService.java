@@ -19,13 +19,7 @@ public interface UserService {
 
     int updateByPrimaryKey(User record);
 
-    List<User> quickSelect(@Param("userId") String userId, @Param("userName") String userName, @Param("numbers") String numbers);
-
-    List<String> selectBuilding();
-
-    List<User> selectByBuilding(String building);
-
-    List<User> selectAllUser();
+    List<User> quickSelect(@Param("userId") String userId, @Param("userName") String userName, @Param("numbers") String numbers, @Param("page") String page, @Param("pageSize") String pageSize);
 
 //    ArrayList<User> selectSelective(User record);
 

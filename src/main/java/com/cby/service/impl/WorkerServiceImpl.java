@@ -3,6 +3,7 @@ package com.cby.service.impl;
 import com.cby.dao.WorkerMapper;
 import com.cby.entity.Worker;
 import com.cby.service.WorkerService;
+import com.github.pagehelper.PageHelper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,11 @@ public class WorkerServiceImpl implements WorkerService {
 
     public int updateByPrimaryKey(Worker record){return mapper.updateByPrimaryKey(record);}
 
-    public List<Worker> quickSelect(@Param("workerId") String workerId, @Param("workerName") String workerName, @Param("numbers") String numbers){return mapper.quickSelect(workerId,workerName,numbers);}
+    public List<Worker> quickSelect(@Param("workerId") String workerId, @Param("workerName") String workerName, @Param("numbers") String numbers, @Param("page") String page, @Param("pageSize") String pageSize){
+        int num = Integer.parseInt(page);
+        int size = Integer.parseInt(pageSize);
+        PageHelper.startPage( num, size);
+        return mapper.quickSelect(workerId,workerName,numbers);
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.cby.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Repair {
@@ -11,6 +13,7 @@ public class Repair {
 
     private String repairInformation;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date repairTime;
 
     private String repairCondition;
@@ -81,5 +84,19 @@ public class Repair {
 
     public void setEvaluation(String evaluation) {
         this.evaluation = evaluation;
+    }
+
+    @Override
+    public String toString() {
+        return "Repair{" +
+                "repairId='" + repairId + '\'' +
+                ", userId='" + userId + '\'' +
+                ", workerId='" + workerId + '\'' +
+                ", repairInformation='" + repairInformation + '\'' +
+                ", repairTime=" + repairTime +
+                ", repairCondition='" + repairCondition + '\'' +
+                ", evaluationTime=" + evaluationTime +
+                ", evaluation='" + evaluation + '\'' +
+                '}';
     }
 }

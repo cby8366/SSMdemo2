@@ -50,4 +50,15 @@ public class Worker {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "Worker{" +
+                "workerId='" + workerId + '\'' +
+                ", workerName='" + workerName + '\'' +
+                ", job='" + job + '\'' +
+                ", numbers='" + numbers + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

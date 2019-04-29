@@ -158,19 +158,10 @@
     </where>
     ORDER BY user_id
   </select>
-  <select id="selectBuilding" resultType="java.lang.String">
-    select building
-    from user 
-  </select>
-  <select id="selectByBuilding" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    <include refid="User_Info" />
-    where
-    building = #{building,jdbcType=VARCHAR}
-  </select>
   <select id="selectAllUser" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from user
+    ORDER BY user_id
   </select>
 </mapper>
