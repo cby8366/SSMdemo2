@@ -1,139 +1,128 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cby.dao.RepairMapper" >
-  <resultMap id="BaseResultMap" type="com.cby.entity.Repair" >
-    <id column="repair_id" property="repairId" jdbcType="VARCHAR" />
-    <result column="user_id" property="userId" jdbcType="VARCHAR" />
-    <result column="worker_id" property="workerId" jdbcType="VARCHAR" />
-    <result column="repair_information" property="repairInformation" jdbcType="VARCHAR" />
-    <result column="repair_time" property="repairTime" jdbcType="TIMESTAMP" />
-    <result column="repair_condition" property="repairCondition" jdbcType="VARCHAR" />
-    <result column="evaluation_time" property="evaluationTime" jdbcType="TIMESTAMP" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cby.dao.RepairMapper">
+  <resultMap id="BaseResultMap" type="com.cby.entity.Repair">
+    <id column="repair_id" jdbcType="VARCHAR" property="repairId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="worker_id" jdbcType="VARCHAR" property="workerId" />
+    <result column="repair_information" jdbcType="VARCHAR" property="repairInformation" />
+    <result column="repair_time" jdbcType="TIMESTAMP" property="repairTime" />
+    <result column="repair_condition" jdbcType="VARCHAR" property="repairCondition" />
+    <result column="evaluation" jdbcType="VARCHAR" property="evaluation" />
+    <result column="evaluation_time" jdbcType="TIMESTAMP" property="evaluationTime" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.cby.entity.Repair" extends="BaseResultMap" >
-    <result column="evaluation" property="evaluation" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     repair_id, user_id, worker_id, repair_information, repair_time, repair_condition, 
-    evaluation_time
+    evaluation, evaluation_time
   </sql>
-  <sql id="Blob_Column_List" >
-    evaluation
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from repair
     where repair_id = #{repairId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from repair
     where repair_id = #{repairId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.cby.entity.Repair" >
+  <insert id="insert" parameterType="com.cby.entity.Repair">
     insert into repair (repair_id, user_id, worker_id, 
       repair_information, repair_time, repair_condition, 
-      evaluation_time, evaluation)
+      evaluation, evaluation_time)
     values (#{repairId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{workerId,jdbcType=VARCHAR}, 
       #{repairInformation,jdbcType=VARCHAR}, #{repairTime,jdbcType=TIMESTAMP}, #{repairCondition,jdbcType=VARCHAR}, 
-      #{evaluationTime,jdbcType=TIMESTAMP}, #{evaluation,jdbcType=LONGVARCHAR})
+      #{evaluation,jdbcType=VARCHAR}, #{evaluationTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.cby.entity.Repair" useGeneratedKeys="true" keyProperty="repairId" >
+  <insert id="insertSelective" parameterType="com.cby.entity.Repair">
     insert into repair
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="repairId != null">
+        repair_id,
+      </if>
+      <if test="userId != null">
         user_id,
       </if>
-      <if test="workerId != null" >
+      <if test="workerId != null">
         worker_id,
       </if>
-      <if test="repairInformation != null" >
+      <if test="repairInformation != null">
         repair_information,
       </if>
-      <if test="repairTime != null" >
+      <if test="repairTime != null">
         repair_time,
       </if>
-      <if test="repairCondition != null" >
+      <if test="repairCondition != null">
         repair_condition,
       </if>
-      <if test="evaluationTime != null" >
-        evaluation_time,
-      </if>
-      <if test="evaluation != null" >
+      <if test="evaluation != null">
         evaluation,
       </if>
+      <if test="evaluationTime != null">
+        evaluation_time,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="repairId != null">
+        #{repairId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
         #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="workerId != null" >
+      <if test="workerId != null">
         #{workerId,jdbcType=VARCHAR},
       </if>
-      <if test="repairInformation != null" >
+      <if test="repairInformation != null">
         #{repairInformation,jdbcType=VARCHAR},
       </if>
-      <if test="repairTime != null" >
+      <if test="repairTime != null">
         #{repairTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="repairCondition != null" >
+      <if test="repairCondition != null">
         #{repairCondition,jdbcType=VARCHAR},
       </if>
-      <if test="evaluationTime != null" >
-        #{evaluationTime,jdbcType=TIMESTAMP},
+      <if test="evaluation != null">
+        #{evaluation,jdbcType=VARCHAR},
       </if>
-      <if test="evaluation != null" >
-        #{evaluation,jdbcType=LONGVARCHAR},
+      <if test="evaluationTime != null">
+        #{evaluationTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cby.entity.Repair" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.cby.entity.Repair">
     update repair
-    <set >
-      <if test="userId != null" >
+    <set>
+      <if test="userId != null">
         user_id = #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="workerId != null" >
+      <if test="workerId != null">
         worker_id = #{workerId,jdbcType=VARCHAR},
       </if>
-      <if test="repairInformation != null" >
+      <if test="repairInformation != null">
         repair_information = #{repairInformation,jdbcType=VARCHAR},
       </if>
-      <if test="repairTime != null" >
+      <if test="repairTime != null">
         repair_time = #{repairTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="repairCondition != null" >
+      <if test="repairCondition != null">
         repair_condition = #{repairCondition,jdbcType=VARCHAR},
       </if>
-      <if test="evaluationTime != null" >
-        evaluation_time = #{evaluationTime,jdbcType=TIMESTAMP},
+      <if test="evaluation != null">
+        evaluation = #{evaluation,jdbcType=VARCHAR},
       </if>
-      <if test="evaluation != null" >
-        evaluation = #{evaluation,jdbcType=LONGVARCHAR},
+      <if test="evaluationTime != null">
+        evaluation_time = #{evaluationTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where repair_id = #{repairId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cby.entity.Repair" >
+  <update id="updateByPrimaryKey" parameterType="com.cby.entity.Repair">
     update repair
     set user_id = #{userId,jdbcType=VARCHAR},
       worker_id = #{workerId,jdbcType=VARCHAR},
       repair_information = #{repairInformation,jdbcType=VARCHAR},
       repair_time = #{repairTime,jdbcType=TIMESTAMP},
       repair_condition = #{repairCondition,jdbcType=VARCHAR},
-      evaluation_time = #{evaluationTime,jdbcType=TIMESTAMP},
-      evaluation = #{evaluation,jdbcType=LONGVARCHAR}
-    where repair_id = #{repairId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.cby.entity.Repair" >
-    update repair
-    set user_id = #{userId,jdbcType=VARCHAR},
-      worker_id = #{workerId,jdbcType=VARCHAR},
-      repair_information = #{repairInformation,jdbcType=VARCHAR},
-      repair_time = #{repairTime,jdbcType=TIMESTAMP},
-      repair_condition = #{repairCondition,jdbcType=VARCHAR},
+      evaluation = #{evaluation,jdbcType=VARCHAR},
       evaluation_time = #{evaluationTime,jdbcType=TIMESTAMP}
     where repair_id = #{repairId,jdbcType=VARCHAR}
   </update>
@@ -151,10 +140,22 @@
       <if test="workerId != null">
         and worker_id = #{workerId,jdbcType=VARCHAR}
       </if>
-      <if test="repairTime != null">
-        and repair_time = #{repairTime,jdbcType=VARCHAR}
+      <if test = "beginTime != null and endTime != null">
+        and repair_time between #{beginTime} and #{endTime}
       </if>
     </where>
-    ORDER BY repair_time
+    ORDER BY repair_time desc
   </select>
+  <update id="accept" parameterType="java.util.Map">
+    update repair
+    <set>
+      <if test="repairCondition != null">
+        repair_condition = #{repairCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="workerId != null">
+        worker_id = #{workerId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where repair_id = #{repairId,jdbcType=VARCHAR}
+  </update>
 </mapper>

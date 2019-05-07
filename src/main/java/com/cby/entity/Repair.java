@@ -18,9 +18,10 @@ public class Repair {
 
     private String repairCondition;
 
-    private Date evaluationTime;
-
     private String evaluation;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Date evaluationTime;
 
     public String getRepairId() {
         return repairId;
@@ -70,20 +71,20 @@ public class Repair {
         this.repairCondition = repairCondition;
     }
 
-    public Date getEvaluationTime() {
-        return evaluationTime;
-    }
-
-    public void setEvaluationTime(Date evaluationTime) {
-        this.evaluationTime = evaluationTime;
-    }
-
     public String getEvaluation() {
         return evaluation;
     }
 
     public void setEvaluation(String evaluation) {
         this.evaluation = evaluation;
+    }
+
+    public Date getEvaluationTime() {
+        return evaluationTime;
+    }
+
+    public void setEvaluationTime(Date evaluationTime) {
+        this.evaluationTime = evaluationTime;
     }
 
     @Override
@@ -95,8 +96,8 @@ public class Repair {
                 ", repairInformation='" + repairInformation + '\'' +
                 ", repairTime=" + repairTime +
                 ", repairCondition='" + repairCondition + '\'' +
-                ", evaluationTime=" + evaluationTime +
                 ", evaluation='" + evaluation + '\'' +
+                ", evaluationTime=" + evaluationTime +
                 '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.cby.dao;
 
+
 import com.cby.entity.Repair;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,9 +17,9 @@ public interface RepairMapper {
 
     int updateByPrimaryKeySelective(Repair record);
 
-    int updateByPrimaryKeyWithBLOBs(Repair record);
-
     int updateByPrimaryKey(Repair record);
 
-    List<Repair> quickSelect(@Param("repairId") String repairId, @Param("userId") String userId, @Param("workerId") String workerId, @Param("repairTime") String repairTime);
+    List<Repair> quickSelect(@Param("repairId") String repairId, @Param("userId") String userId, @Param("workerId") String workerId, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
+
+    int accept(@Param("repairId") String repairId, @Param("repairCondition") String repairCondition,@Param("workerId") String workerId);
 }

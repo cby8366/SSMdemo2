@@ -21,6 +21,6 @@ public interface UserService {
 
     List<User> quickSelect(@Param("userId") String userId, @Param("userName") String userName, @Param("numbers") String numbers, @Param("page") String page, @Param("pageSize") String pageSize);
 
+    int updatePassword(@Param("userId") String userId,@Param("password") String password);
 //    ArrayList<User> selectSelective(User record);
-
 }

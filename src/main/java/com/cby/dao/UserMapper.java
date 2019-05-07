@@ -20,4 +20,5 @@ public interface UserMapper {
 
     List<User> quickSelect(@Param("userId") String userId,@Param("userName") String userName,@Param("numbers") String numbers);
 
+    int updatePassword(@Param("userId") String userId,@Param("password") String password);
 }

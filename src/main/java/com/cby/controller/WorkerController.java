@@ -25,9 +25,6 @@ public class WorkerController {
         String numbers = param.get("numbers").toString();
         String page = param.get("page").toString();
         String pageSize = param.get("pageSize").toString();
-        System.out.println("workerId:"+workerId);
-        System.out.println("workerName:"+workerName);
-        System.out.println("numbers:"+numbers);
         if(workerId.equals("")) workerId = null;
         if(workerName.equals("")) workerName = null;
         if(numbers.equals("")) numbers = null;

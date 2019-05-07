@@ -37,6 +37,8 @@ public class UserServiceImpl implements UserService {
         return mapper.quickSelect( userId, userName, numbers);
     }
 
+    public int updatePassword(@Param("userId") String userId,@Param("password") String password){return mapper.updatePassword(userId,password);}
+
    /* public ArrayList<User> selectSelective(User record){
         return mapper.selectSelective(record);
     }*/

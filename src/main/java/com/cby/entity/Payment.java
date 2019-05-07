@@ -1,9 +1,11 @@
 package com.cby.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Payment {
-    private String paymentId;
+    private Integer paymentId;
 
     private String userId;
 
@@ -11,17 +13,22 @@ public class Payment {
 
     private Integer money;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date startTime;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date endTime;
 
     private String state;
 
-    public String getPaymentId() {
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Date paymentTime;
+
+    public Integer getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(String paymentId) {
+    public void setPaymentId(Integer paymentId) {
         this.paymentId = paymentId;
     }
 
@@ -71,5 +78,13 @@ public class Payment {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public Date getPaymentTime() {
+        return paymentTime;
+    }
+
+    public void setPaymentTime(Date paymentTime) {
+        this.paymentTime = paymentTime;
     }
 }

@@ -164,4 +164,9 @@
     from user
     ORDER BY user_id
   </select>
+  <update id="updatePassword" parameterType="java.util.Map" >
+    update user
+    set password = #{password,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
 </mapper>
