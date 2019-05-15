@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,17 @@ import java.util.Map;
 public class WorkerController {
     @Autowired
     WorkerService workerService;
+
+    @RequestMapping(value = "/selectByPrimaryKey", method = RequestMethod.POST)
+    public  Map<String, Object> SelectByPrimaryKey(@RequestBody Map<String, Object> param) {
+        String workerId = param.get("workerId").toString();
+        Worker worker = new Worker();
+        worker = workerService.selectByPrimaryKey(workerId);
+        Map<String, Object> response = new HashMap<>();
+        response.put("code", 20000);
+        response.put("data",worker);
+        return  response;
+    }
 
     //快速查询
     @RequestMapping(value = "/quickSelect",method = RequestMethod.POST)
@@ -59,7 +71,6 @@ public class WorkerController {
         worker.setJob(job);
         worker.setNumbers(numbers);
         worker.setPassword(password);
-        System.out.println(worker);
         Map<String,Object> response = new HashMap<>();
         if(workerService.selectByPrimaryKey(workerId) != null){
             response.put("code",20001);
@@ -86,6 +97,21 @@ public class WorkerController {
         return response;
     }
 
+    //批量删除
+    @RequestMapping(value = "/deleteSelect", method = RequestMethod.POST)
+    public Map<String, Object> DeleteSelect(@RequestBody Map<String, Object> param) {
+        List<String> workerId = new ArrayList<>();
+        workerId = (List<String>)param.get("workerIds");
+        for (int i=0;i<workerId.size();i++)
+        {
+            workerService.deleteByPrimaryKey(workerId.get(i));
+        }
+        Map<String, Object> response = new HashMap<>();
+        response.put("code", 20000);
+        response.put("message", "删除成功");
+        return response;
+    }
+
     //编辑员工
     @RequestMapping(value = "editWorker",method = RequestMethod.POST)
     public Map<String,Object> editWorker(@RequestBody Map<String,Object> param){
@@ -104,12 +130,36 @@ public class WorkerController {
         worker.setJob(job);
         worker.setNumbers(numbers);
         worker.setPassword(workerService.selectByPrimaryKey(workerId).getPassword());
-        System.out.println(worker);
         workerService.updateByPrimaryKeySelective(worker);
         Map<String,Object> response = new HashMap<>();
         response.put("code",20000);
         response.put("data",worker);
         response.put("message","修改成功");
         return response;
+    }
+
+    //修改密码
+    @RequestMapping(value = "/updataPassword", method = RequestMethod.POST)
+    public Map<String, Object> UpdataPassword(@RequestBody Map<String, Object> param) {
+        String workerId = param.get("workerId").toString();
+        String oldPassword = MD5Utils.MD5(param.get("oldPassword").toString());
+        String password = MD5Utils.MD5(param.get("newPassword").toString());
+
+        if (workerId.equals("")) workerId = null;
+        if (oldPassword.equals("")) oldPassword = null;
+        if (password.equals("")) password = null;
+
+        Map<String, Object> response = new HashMap<>();
+        if(oldPassword.equals(workerService.selectByPrimaryKey(workerId).getPassword())){
+            workerService.updatePassword(workerId, password);
+            response.put("code", 20000);
+            response.put("message", "修改成功");
+            return response;
+        }else{
+            System.out.println("原密码错误");
+            response.put("code", 20001);
+            response.put("message", "修改失败，原密码错误");
+            return response;
+        }
     }
 }

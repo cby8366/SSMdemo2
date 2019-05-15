@@ -30,33 +30,20 @@ public class PaymentController {
         SimpleDateFormat sdf =   new SimpleDateFormat( " yyyy-MM-dd HH:mm:ss " );
         String nowTime = sdf.format(date);
         Date paymentTime = sdf.parse( nowTime );
-        String state;
+        String state = "未到期";
+        payment.setUserId(userId);
+        payment.setWorkerId(workerId);
+        payment.setMoney(money);
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+        payment.setStartTime(s.parse(beginTime));
+        payment.setEndTime(s.parse(endTime));
+        payment.setState(state);
+        payment.setPaymentTime(paymentTime);
+        paymentService.insertSelective(payment);
         Map<String ,Object> response = new HashMap<>();
+        response.put("code",20000);
+        response.put("message","提交成功");
         return response;
-//        Repair repair = new Repair();
-//        String userId = param.get("userId").toString();
-//        String repairType = param.get("repairType").toString();
-//        String content = param.get("content").toString();
-//        String repairInformation = repairType+"-----"+content;
-//        System.out.println(repairInformation);
-//        UUID uuid=UUID.randomUUID();//生成唯一序列id
-//        String repairId = uuid.toString();
-//        System.out.println(repairId);
-//        repair.setRepairId(repairId);
-//        repair.setUserId(userId);
-//        repair.setRepairInformation(repairInformation);
-//        repair.setRepairCondition("未接受");
-//        Date date = new Date();//获得系统时间.
-//        SimpleDateFormat sdf =   new SimpleDateFormat( " yyyy-MM-dd HH:mm:ss " );
-//        String nowTime = sdf.format(date);
-//        Date time = sdf.parse( nowTime );
-//        repair.setRepairTime(time);
-//        System.out.println(repairInformation);
-//        repairService.insertSelective(repair);
-//        Map<String,Object> response = new HashMap<>();
-//        response.put("code",20000);
-//        response.put("message","提交成功");
-//        return response;
     }
 
     //快速查询
@@ -91,6 +78,20 @@ public class PaymentController {
         if(workerId.equals("")) workerId = null;
 
         List<Payment> list = paymentService.quickSelect(intPaymentId,userId,workerId,beginTime,endTime,page,pageSize);
+
+//        SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
+//        String nowTime = sdf.format(new Date());
+        Date date = new Date();
+        for(int i = 0; i < list.size(); i++){
+            if(list.get(i).getEndTime().compareTo(date)==-1){
+                Payment payment = new Payment();
+                payment = list.get(i);
+                payment.setState("已过期");
+                paymentService.updateByPrimaryKeySelective(payment);
+            }
+        }
+        list = paymentService.quickSelect(intPaymentId,userId,workerId,beginTime,endTime,page,pageSize);
+
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> response = new HashMap<>();
         Map<String,Object> res = new HashMap<>();

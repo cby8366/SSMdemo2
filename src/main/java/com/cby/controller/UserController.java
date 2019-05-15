@@ -25,6 +25,19 @@ public class UserController {
         return "login";
     }*/
 
+
+    //主键查询
+    @RequestMapping(value = "/selectByPrimaryKey", method = RequestMethod.POST)
+    public  Map<String, Object> SelectByPrimaryKey(@RequestBody Map<String, Object> param) {
+        String userId = param.get("userId").toString();
+        User user = new User();
+        user = userService.selectByPrimaryKey(userId);
+        Map<String, Object> response = new HashMap<>();
+        response.put("code", 20000);
+        response.put("data",user);
+        return  response;
+    }
+
     //快速查询
     @RequestMapping(value = "/quickSelect", method = RequestMethod.POST)
     public Map<String, Object> QuickSelect(@RequestBody Map<String, Object> param) {
@@ -33,9 +46,6 @@ public class UserController {
         String numbers = param.get("numbers").toString();
         String page = param.get("page").toString();
         String pageSize = param.get("pageSize").toString();
-        System.out.println("userId  " + userId);
-        System.out.println("userName  " + userName);
-        System.out.println("numbers  " + numbers);
         if (userId.equals("")) userId = null;
         if (userName.equals("")) userName = null;
         if (numbers.equals("")) numbers = null;
@@ -92,7 +102,6 @@ public class UserController {
         user.setPassword(password);
         user.setBuilding(building);
         user.setRoom(room);
-        System.out.println(user);
         Map<String, Object> response = new HashMap<>();
         if (userService.selectByPrimaryKey(userId) != null) {
             response.put("code", 20001);
@@ -112,6 +121,21 @@ public class UserController {
     public Map<String, Object> DeleteUser(@RequestBody Map<String, Object> param) {
         String userId = param.get("userId").toString();
         userService.deleteByPrimaryKey(userId);
+        Map<String, Object> response = new HashMap<>();
+        response.put("code", 20000);
+        response.put("message", "删除成功");
+        return response;
+    }
+
+    //批量删除
+    @RequestMapping(value = "/deleteSelect", method = RequestMethod.POST)
+    public Map<String, Object> DeleteSelect(@RequestBody Map<String, Object> param) {
+        List<String> userId = new ArrayList<>();
+        userId = (List<String>)param.get("userIds");
+        for (int i=0;i<userId.size();i++)
+        {
+            userService.deleteByPrimaryKey(userId.get(i));
+        }
         Map<String, Object> response = new HashMap<>();
         response.put("code", 20000);
         response.put("message", "删除成功");
@@ -145,7 +169,6 @@ public class UserController {
         user.setPassword(userService.selectByPrimaryKey(userId).getPassword());
         user.setBuilding(building);
         user.setRoom(room);
-        System.out.println(user);
         userService.updateByPrimaryKeySelective(user);
         Map<String, Object> response = new HashMap<>();
         response.put("code", 20000);

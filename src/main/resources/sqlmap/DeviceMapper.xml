@@ -2,41 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cby.dao.DeviceMapper" >
   <resultMap id="BaseResultMap" type="com.cby.entity.Device" >
-    <id column="devide_id" property="devideId" jdbcType="VARCHAR" />
+    <id column="devide_id" property="devideId" jdbcType="INTEGER" />
     <result column="worker_id" property="workerId" jdbcType="VARCHAR" />
     <result column="devide_name" property="devideName" jdbcType="VARCHAR" />
     <result column="start_time" property="startTime" jdbcType="DATE" />
     <result column="last_date" property="lastDate" jdbcType="DATE" />
     <result column="next_date" property="nextDate" jdbcType="DATE" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.cby.entity.Device" extends="BaseResultMap" >
-    <result column="ps" property="ps" jdbcType="LONGVARCHAR" />
+    <result column="ps" property="ps" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    devide_id, worker_id, devide_name, start_time, last_date, next_date
+    devide_id, worker_id, devide_name, start_time, last_date, next_date, ps
   </sql>
-  <sql id="Blob_Column_List" >
-    ps
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
-    select 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from device
-    where devide_id = #{devideId,jdbcType=VARCHAR}
+    where devide_id = #{devideId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from device
-    where devide_id = #{devideId,jdbcType=VARCHAR}
+    where devide_id = #{devideId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.cby.entity.Device" >
-    insert into device (devide_id, worker_id, devide_name, 
-      start_time, last_date, next_date, 
+    insert into device (devide_id, worker_id, devide_name,
+      start_time, last_date, next_date,
       ps)
-    values (#{devideId,jdbcType=VARCHAR}, #{workerId,jdbcType=VARCHAR}, #{devideName,jdbcType=VARCHAR}, 
-      #{startTime,jdbcType=DATE}, #{lastDate,jdbcType=DATE}, #{nextDate,jdbcType=DATE}, 
-      #{ps,jdbcType=LONGVARCHAR})
+    values (#{devideId,jdbcType=INTEGER}, #{workerId,jdbcType=VARCHAR}, #{devideName,jdbcType=VARCHAR},
+      #{startTime,jdbcType=DATE}, #{lastDate,jdbcType=DATE}, #{nextDate,jdbcType=DATE},
+      #{ps,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.cby.entity.Device" >
     insert into device
@@ -65,7 +58,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="devideId != null" >
-        #{devideId,jdbcType=VARCHAR},
+        #{devideId,jdbcType=INTEGER},
       </if>
       <if test="workerId != null" >
         #{workerId,jdbcType=VARCHAR},
@@ -83,7 +76,7 @@
         #{nextDate,jdbcType=DATE},
       </if>
       <if test="ps != null" >
-        #{ps,jdbcType=LONGVARCHAR},
+        #{ps,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -106,20 +99,10 @@
         next_date = #{nextDate,jdbcType=DATE},
       </if>
       <if test="ps != null" >
-        ps = #{ps,jdbcType=LONGVARCHAR},
+        ps = #{ps,jdbcType=VARCHAR},
       </if>
     </set>
-    where devide_id = #{devideId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cby.entity.Device" >
-    update device
-    set worker_id = #{workerId,jdbcType=VARCHAR},
-      devide_name = #{devideName,jdbcType=VARCHAR},
-      start_time = #{startTime,jdbcType=DATE},
-      last_date = #{lastDate,jdbcType=DATE},
-      next_date = #{nextDate,jdbcType=DATE},
-      ps = #{ps,jdbcType=LONGVARCHAR}
-    where devide_id = #{devideId,jdbcType=VARCHAR}
+    where devide_id = #{devideId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cby.entity.Device" >
     update device
@@ -127,7 +110,19 @@
       devide_name = #{devideName,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=DATE},
       last_date = #{lastDate,jdbcType=DATE},
-      next_date = #{nextDate,jdbcType=DATE}
-    where devide_id = #{devideId,jdbcType=VARCHAR}
+      next_date = #{nextDate,jdbcType=DATE},
+      ps = #{ps,jdbcType=VARCHAR}
+    where devide_id = #{devideId,jdbcType=INTEGER}
   </update>
+  <select id="quickSelect" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from device
+    <where>
+      <if test="devideId != 0">
+        devide_id = #{devideId,jdbcType=INTEGER}
+      </if>
+    </where>
+    ORDER BY start_time desc
+  </select>
 </mapper>

@@ -169,4 +169,11 @@
     set password = #{password,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>
+  <delete id="deleteSelect" parameterType="java.lang.String" >
+    delete from user
+    where user_id in
+    <foreach item="userId" collection="array" open="(" separator="," close=")">
+      #{userId}
+    </foreach>
+  </delete>
 </mapper>

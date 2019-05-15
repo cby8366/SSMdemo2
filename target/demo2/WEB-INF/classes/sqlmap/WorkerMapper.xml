@@ -115,4 +115,9 @@
     <include refid="Worker_Info"/>
     from worker
   </select>
+  <update id="updatePassword" parameterType="java.util.Map" >
+    update worker
+    set password = #{password,jdbcType=VARCHAR}
+    where worker_id = #{workerId,jdbcType=VARCHAR}
+  </update>
 </mapper>

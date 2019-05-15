@@ -20,4 +20,5 @@ public interface WorkerMapper {
 
     List<Worker> quickSelect(@Param("workerId") String workerId, @Param("workerName") String workerName, @Param("numbers") String numbers);
 
+    int updatePassword(@Param("workerId") String workerId,@Param("password") String password);
 }

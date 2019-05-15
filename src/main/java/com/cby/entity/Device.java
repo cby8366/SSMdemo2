@@ -1,27 +1,32 @@
 package com.cby.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Device {
-    private String devideId;
+    private Integer devideId;
 
     private String workerId;
 
     private String devideName;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date startTime;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date lastDate;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date nextDate;
 
     private String ps;
 
-    public String getDevideId() {
+    public Integer getDevideId() {
         return devideId;
     }
 
-    public void setDevideId(String devideId) {
+    public void setDevideId(Integer devideId) {
         this.devideId = devideId;
     }
 
@@ -71,5 +76,18 @@ public class Device {
 
     public void setPs(String ps) {
         this.ps = ps;
+    }
+
+    @Override
+    public String toString() {
+        return "Device{" +
+                "devideId=" + devideId +
+                ", workerId='" + workerId + '\'' +
+                ", devideName='" + devideName + '\'' +
+                ", startTime=" + startTime +
+                ", lastDate=" + lastDate +
+                ", nextDate=" + nextDate +
+                ", ps='" + ps + '\'' +
+                '}';
     }
 }

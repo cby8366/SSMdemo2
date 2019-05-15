@@ -35,4 +35,5 @@ public class WorkerServiceImpl implements WorkerService {
         return mapper.quickSelect(workerId,workerName,numbers);
     }
 
+    public int updatePassword(@Param("workerId") String workerId,@Param("password") String password){return mapper.updatePassword(workerId,password);}
 }

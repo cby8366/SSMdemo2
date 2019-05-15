@@ -21,4 +21,5 @@ public interface WorkerService {
 
     List<Worker> quickSelect(@Param("workerId") String workerId, @Param("workerName") String workerName, @Param("numbers") String numbers, @Param("page") String page, @Param("pageSize") String pageSize);
 
+    int updatePassword(@Param("workerId") String workerId,@Param("password") String password);
 }

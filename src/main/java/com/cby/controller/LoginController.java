@@ -27,9 +27,7 @@ public class LoginController {
         String userId =param.get("username").toString();
         String password =MD5Utils.MD5(param.get("password").toString());
         String type =param.get("type").toString();
-        System.out.println(userId+" "+password+" "+type);
         Boolean result = checkLogin(userId,password,type);
-//        System.out.println(result);
         if (result&&type.equals("1")) {
             System.out.println("success");
             Map<String,Object> response = new HashMap<>();

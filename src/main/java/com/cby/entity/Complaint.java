@@ -1,9 +1,11 @@
 package com.cby.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Complaint {
-    private String complaintId;
+    private Integer complaintId;
 
     private String userId;
 
@@ -13,15 +15,17 @@ public class Complaint {
 
     private String reply;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date complaintTime;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date replyTime;
 
-    public String getComplaintId() {
+    public Integer getComplaintId() {
         return complaintId;
     }
 
-    public void setComplaintId(String complaintId) {
+    public void setComplaintId(Integer complaintId) {
         this.complaintId = complaintId;
     }
 

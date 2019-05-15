@@ -1,7 +1,11 @@
 package com.cby.controller;
 
 import com.cby.entity.Repair;
+import com.cby.entity.User;
+import com.cby.entity.Worker;
 import com.cby.service.RepairService;
+import com.cby.service.UserService;
+import com.cby.service.WorkerService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,12 +38,24 @@ public class RepairController {
              beginTime = repairTime.get(0);
              endTime = repairTime.get(1);
         }
+        int intRepairId;
+        if(repairId.equals("")) {
+            repairId = null;
+            intRepairId = 0;
+        }
+        else {
+            intRepairId = Integer.parseInt(repairId);
+        }
         String page = param.get("page").toString();
         String pageSize = param.get("pageSize").toString();
-        if(repairId.equals("")) repairId = null;
+//        User user = new User();
+//        Worker worker = new Worker();
         if(userId.equals("")) userId = null;
+//        else user = userService.selectByPrimaryKey(userId);
         if(workerId.equals("")) workerId = null;
-        List<Repair> list = repairService.quickSelect(repairId,userId,workerId,beginTime,endTime,page,pageSize);
+//        else worker = workerService.selectByPrimaryKey(workerId);
+        System.out.println(intRepairId);
+        List<Repair> list = repairService.quickSelect(intRepairId,userId,workerId,beginTime,endTime,page,pageSize);
         PageInfo pageInfo = new PageInfo(list);
         Map<String,Object> response = new HashMap<>();
         Map<String,Object> res = new HashMap<>();
@@ -50,6 +66,7 @@ public class RepairController {
         return response;
     }
 
+    //接受报修
     @RequestMapping(value = "/accept",method = RequestMethod.POST)
     public Map<String, Object> Accept(@RequestBody Map<String,Object> param){
         String repairId = param.get("repairId").toString();
@@ -57,7 +74,21 @@ public class RepairController {
         String repairCondition = "已接受";
         System.out.println(repairId);
         System.out.println(workerId);
-        repairService.accept(repairId,repairCondition,workerId);
+        int intRepairId = Integer.parseInt(repairId);
+        repairService.accept(intRepairId,repairCondition,workerId);
+        Map<String,Object> response = new HashMap<>();
+        response.put("code",20000);
+        return response;
+    }
+
+    //完成报修
+    @RequestMapping(value = "/over",method = RequestMethod.POST)
+    public Map<String, Object> Over(@RequestBody Map<String,Object> param){
+        String repairId = param.get("repairId").toString();
+        String repairCondition = "已完成";
+        System.out.println(repairId);
+        int intRepairId = Integer.parseInt(repairId);
+        repairService.over(intRepairId,repairCondition);
         Map<String,Object> response = new HashMap<>();
         response.put("code",20000);
         return response;
@@ -67,7 +98,8 @@ public class RepairController {
     @RequestMapping(value = "/deleteRepair",method = RequestMethod.POST)
     public Map<String, Object> DeleteRepair(@RequestBody Map<String,Object> param){
         String repairId = param.get("repairId").toString();
-        repairService.deleteByPrimaryKey(repairId);
+        int intRepairId = Integer.parseInt(repairId);
+        repairService.deleteByPrimaryKey(intRepairId);
         Map<String,Object> response = new HashMap<>();
         response.put("code",20000);
         response.put("message","删除成功");
@@ -83,10 +115,6 @@ public class RepairController {
         String content = param.get("content").toString();
         String repairInformation = repairType+"-----"+content;
         System.out.println(repairInformation);
-        UUID uuid=UUID.randomUUID();//生成唯一序列id
-        String repairId = uuid.toString();
-        System.out.println(repairId);
-        repair.setRepairId(repairId);
         repair.setUserId(userId);
         repair.setRepairInformation(repairInformation);
         repair.setRepairCondition("未接受");
@@ -97,6 +125,27 @@ public class RepairController {
         repair.setRepairTime(time);
         System.out.println(repairInformation);
         repairService.insertSelective(repair);
+        Map<String,Object> response = new HashMap<>();
+        response.put("code",20000);
+        response.put("message","提交成功");
+        return response;
+    }
+
+    //评价
+    @RequestMapping(value = "/evaluation",method = RequestMethod.POST)
+    public Map<String, Object> Evaluation(@RequestBody Map<String,Object> param) throws ParseException {
+        Repair repair = new Repair();
+        String repairId = param.get("repairId").toString();
+        String evaluation = param.get("evaluation").toString();
+        int intRepairId = Integer.parseInt(repairId);
+        repair = repairService.selectByPrimaryKey(intRepairId);
+        repair.setEvaluation(evaluation);
+        Date date = new Date();//获得系统时间.
+        SimpleDateFormat sdf =   new SimpleDateFormat( " yyyy-MM-dd HH:mm:ss " );
+        String nowTime = sdf.format(date);
+        Date evaluationTime = sdf.parse( nowTime );
+        repair.setEvaluationTime(evaluationTime);
+        repairService.updateByPrimaryKeySelective(repair);
         Map<String,Object> response = new HashMap<>();
         response.put("code",20000);
         response.put("message","提交成功");

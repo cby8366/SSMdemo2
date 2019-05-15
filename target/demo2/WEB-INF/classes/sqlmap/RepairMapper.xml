@@ -1,121 +1,121 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cby.dao.RepairMapper">
-  <resultMap id="BaseResultMap" type="com.cby.entity.Repair">
-    <id column="repair_id" jdbcType="VARCHAR" property="repairId" />
-    <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="worker_id" jdbcType="VARCHAR" property="workerId" />
-    <result column="repair_information" jdbcType="VARCHAR" property="repairInformation" />
-    <result column="repair_time" jdbcType="TIMESTAMP" property="repairTime" />
-    <result column="repair_condition" jdbcType="VARCHAR" property="repairCondition" />
-    <result column="evaluation" jdbcType="VARCHAR" property="evaluation" />
-    <result column="evaluation_time" jdbcType="TIMESTAMP" property="evaluationTime" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cby.dao.RepairMapper" >
+  <resultMap id="BaseResultMap" type="com.cby.entity.Repair" >
+    <id column="repair_id" property="repairId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="worker_id" property="workerId" jdbcType="VARCHAR" />
+    <result column="repair_information" property="repairInformation" jdbcType="VARCHAR" />
+    <result column="repair_time" property="repairTime" jdbcType="TIMESTAMP" />
+    <result column="repair_condition" property="repairCondition" jdbcType="VARCHAR" />
+    <result column="evaluation" property="evaluation" jdbcType="VARCHAR" />
+    <result column="evaluation_time" property="evaluationTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <sql id="Base_Column_List">
-    repair_id, user_id, worker_id, repair_information, repair_time, repair_condition, 
+  <sql id="Base_Column_List" >
+    repair_id, user_id, worker_id, repair_information, repair_time, repair_condition,
     evaluation, evaluation_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
     <include refid="Base_Column_List" />
     from repair
-    where repair_id = #{repairId,jdbcType=VARCHAR}
+    where repair_id = #{repairId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from repair
-    where repair_id = #{repairId,jdbcType=VARCHAR}
+    where repair_id = #{repairId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.cby.entity.Repair">
-    insert into repair (repair_id, user_id, worker_id, 
-      repair_information, repair_time, repair_condition, 
+  <insert id="insert" parameterType="com.cby.entity.Repair" >
+    insert into repair (repair_id, user_id, worker_id,
+      repair_information, repair_time, repair_condition,
       evaluation, evaluation_time)
-    values (#{repairId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{workerId,jdbcType=VARCHAR}, 
-      #{repairInformation,jdbcType=VARCHAR}, #{repairTime,jdbcType=TIMESTAMP}, #{repairCondition,jdbcType=VARCHAR}, 
+    values (#{repairId,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{workerId,jdbcType=VARCHAR},
+      #{repairInformation,jdbcType=VARCHAR}, #{repairTime,jdbcType=TIMESTAMP}, #{repairCondition,jdbcType=VARCHAR},
       #{evaluation,jdbcType=VARCHAR}, #{evaluationTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.cby.entity.Repair">
+  <insert id="insertSelective" parameterType="com.cby.entity.Repair" >
     insert into repair
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="repairId != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="repairId != null" >
         repair_id,
       </if>
-      <if test="userId != null">
+      <if test="userId != null" >
         user_id,
       </if>
-      <if test="workerId != null">
+      <if test="workerId != null" >
         worker_id,
       </if>
-      <if test="repairInformation != null">
+      <if test="repairInformation != null" >
         repair_information,
       </if>
-      <if test="repairTime != null">
+      <if test="repairTime != null" >
         repair_time,
       </if>
-      <if test="repairCondition != null">
+      <if test="repairCondition != null" >
         repair_condition,
       </if>
-      <if test="evaluation != null">
+      <if test="evaluation != null" >
         evaluation,
       </if>
-      <if test="evaluationTime != null">
+      <if test="evaluationTime != null" >
         evaluation_time,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="repairId != null">
-        #{repairId,jdbcType=VARCHAR},
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="repairId != null" >
+        #{repairId,jdbcType=INTEGER},
       </if>
-      <if test="userId != null">
+      <if test="userId != null" >
         #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="workerId != null">
+      <if test="workerId != null" >
         #{workerId,jdbcType=VARCHAR},
       </if>
-      <if test="repairInformation != null">
+      <if test="repairInformation != null" >
         #{repairInformation,jdbcType=VARCHAR},
       </if>
-      <if test="repairTime != null">
+      <if test="repairTime != null" >
         #{repairTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="repairCondition != null">
+      <if test="repairCondition != null" >
         #{repairCondition,jdbcType=VARCHAR},
       </if>
-      <if test="evaluation != null">
+      <if test="evaluation != null" >
         #{evaluation,jdbcType=VARCHAR},
       </if>
-      <if test="evaluationTime != null">
+      <if test="evaluationTime != null" >
         #{evaluationTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cby.entity.Repair">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cby.entity.Repair" >
     update repair
-    <set>
-      <if test="userId != null">
+    <set >
+      <if test="userId != null" >
         user_id = #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="workerId != null">
+      <if test="workerId != null" >
         worker_id = #{workerId,jdbcType=VARCHAR},
       </if>
-      <if test="repairInformation != null">
+      <if test="repairInformation != null" >
         repair_information = #{repairInformation,jdbcType=VARCHAR},
       </if>
-      <if test="repairTime != null">
+      <if test="repairTime != null" >
         repair_time = #{repairTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="repairCondition != null">
+      <if test="repairCondition != null" >
         repair_condition = #{repairCondition,jdbcType=VARCHAR},
       </if>
-      <if test="evaluation != null">
+      <if test="evaluation != null" >
         evaluation = #{evaluation,jdbcType=VARCHAR},
       </if>
-      <if test="evaluationTime != null">
+      <if test="evaluationTime != null" >
         evaluation_time = #{evaluationTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where repair_id = #{repairId,jdbcType=VARCHAR}
+    where repair_id = #{repairId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cby.entity.Repair">
+  <update id="updateByPrimaryKey" parameterType="com.cby.entity.Repair" >
     update repair
     set user_id = #{userId,jdbcType=VARCHAR},
       worker_id = #{workerId,jdbcType=VARCHAR},
@@ -124,15 +124,15 @@
       repair_condition = #{repairCondition,jdbcType=VARCHAR},
       evaluation = #{evaluation,jdbcType=VARCHAR},
       evaluation_time = #{evaluationTime,jdbcType=TIMESTAMP}
-    where repair_id = #{repairId,jdbcType=VARCHAR}
+    where repair_id = #{repairId,jdbcType=INTEGER}
   </update>
   <select id="quickSelect" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from repair
     <where>
-      <if test="repairId != null">
-        repair_id = #{repairId,jdbcType=VARCHAR}
+      <if test="repairId != 0">
+        repair_id = #{repairId,jdbcType=INTEGER}
       </if>
       <if test="userId != null">
         and user_id = #{userId,jdbcType=VARCHAR}
@@ -157,5 +157,14 @@
       </if>
     </set>
     where repair_id = #{repairId,jdbcType=VARCHAR}
+  </update>
+  <update id="over" parameterType="java.util.Map">
+    update repair
+    <set>
+      <if test="repairCondition != null">
+        repair_condition = #{repairCondition,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where repair_id = #{repairId,jdbcType=INTEGER}
   </update>
 </mapper>
